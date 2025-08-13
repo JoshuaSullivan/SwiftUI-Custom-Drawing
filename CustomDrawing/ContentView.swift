@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+        
     private let gear: [any View] = [
         GearRingView()
             .foregroundStyle(.red),
@@ -46,11 +46,24 @@ struct ContentView: View {
             .foregroundStyle(.orange),
     ]
     
+    private let shader: [any View] = [
+            Circle()
+                .colorEffect(ShaderLibrary.truchetCurve(
+                    .float2(200, 200),
+                    .float(0)
+                )),
+            Circle()
+                .colorEffect(ShaderLibrary.truchetMaze(
+                    .float2(200, 200),
+                )),
+        
+    ]
+    
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Shader Effects"]
     
     init() {
-        allViews = [gear, burst, tech, wave]
+        allViews = [gear, burst, tech, wave, shader]
     }
     
     var body: some View {
