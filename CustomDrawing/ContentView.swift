@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-        
+    
     private let gear: [any View] = [
         GearRingView()
             .foregroundStyle(.red),
@@ -26,11 +26,11 @@ struct ContentView: View {
     ]
     
     private let tech: [any View] = [
-                TechRing().foregroundStyle(.blue),
-                HollowTechRing(thicknessRatio: 0.25).foregroundStyle(.green),
-                TechRing(insetRatio: 0.05, spanCountRange: 6...6).stroke(.red, lineWidth: 4),
-                HollowTechRing().fill(.orange),
-                TechRing(insetRatio: 0.2, spanCountRange: 1...3).stroke(.black, lineWidth: 2).fill(.yellow),
+        TechRing().foregroundStyle(.blue),
+        HollowTechRing(thicknessRatio: 0.25).foregroundStyle(.green),
+        TechRing(insetRatio: 0.05, spanCountRange: 6...6).stroke(.red, lineWidth: 4),
+        HollowTechRing().fill(.orange),
+        TechRing(insetRatio: 0.2, spanCountRange: 1...3).stroke(.black, lineWidth: 2).fill(.yellow),
     ]
     
     private let wave: [any View] = [
@@ -46,6 +46,20 @@ struct ContentView: View {
             .foregroundStyle(.orange),
     ]
     
+    private let streaks: [any View] = [
+        SparseStreakRing()
+            .stroke(lineWidth: 1)
+            .foregroundStyle(.blue),
+        
+        SparseStreakRing(thicknessRatio: 0.2, layerCount: 4, streaksPerLayer: 2...6)
+            .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round))
+            .foregroundStyle(.green),
+        
+        SparseStreakRing(thicknessRatio: 0.5, layerCount: 3, streaksPerLayer: 1...1)
+            .stroke(style: StrokeStyle(lineWidth: 12, lineCap: .round))
+            .foregroundStyle(.red),
+        ]
+    
     private let shader: [any View] = [
             Circle()
                 .colorEffect(ShaderLibrary.truchetCurve(
@@ -60,10 +74,10 @@ struct ContentView: View {
     ]
     
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Shader Effects"]
     
     init() {
-        allViews = [gear, burst, tech, wave, shader]
+        allViews = [gear, burst, tech, wave, streaks, shader]
     }
     
     var body: some View {

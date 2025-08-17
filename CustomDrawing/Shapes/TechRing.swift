@@ -1,23 +1,8 @@
-//
-//  TechRing.swift
-//  CustomDrawing
-//
-//  Created by Joshua Sullivan on 8/11/25.
-//
-
 import SwiftUI
 
+/// A shape that draws a tech-style ring with customizable notches.
+///
 public struct TechRing: Shape {
-    
-    public struct Span {
-        public let start: Angle
-        public let end: Angle
-        
-        public init(start: Angle, end: Angle) {
-            self.start = start
-            self.end = end
-        }
-    }
     
     /// The percentage of the radius to inset the notches.
     public let insetRatio: CGFloat
@@ -136,7 +121,7 @@ public struct HollowTechRing: Shape {
         self.innerSpans = spans.flatMap { $0 }
     }
     
-    public init(insetRatio: CGFloat = 0.1, thicknessRatio: CGFloat = 0.25, outerSpans: [TechRing.Span], innerSpans: [TechRing.Span]) {
+    public init(insetRatio: CGFloat = 0.1, thicknessRatio: CGFloat = 0.25, outerSpans: [Span], innerSpans: [Span]) {
         self.insetRatio = insetRatio
         self.thicknessRatio = thicknessRatio
         self.outerSpans = outerSpans.flatMap { [$0.start.radians, $0.end.radians] }

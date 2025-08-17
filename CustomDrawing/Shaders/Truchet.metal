@@ -56,3 +56,18 @@ float hash21(float2 p) {
     col += mask;
     return half4(col * pixelColor.a, pixelColor.a);
 }
+
+//[[stitchable]] half4 truchetHalfTri(float2 position, half4 pixelColor, float2 imageSize) {
+//    float2 uv = (position - 0.5 * imageSize) / imageSize.y;
+//    
+//    half3 col = half3(0.0);
+//    
+//    uv *= 8.0;
+//    float2 gv = fract(uv) - 0.5;
+//    float2 id = floor(uv);
+//    
+//    float n = hash21(id);
+//    if (n < 0.5) { gv.x *= -1.0; }
+//    float2 cuv = gv - sign(gv.x + gv.y + 0.0001) * 0.5;
+//    
+//}
