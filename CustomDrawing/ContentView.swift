@@ -10,13 +10,9 @@ import SwiftUI
 struct ContentView: View {
     
     private let gear: [any View] = [
-        GearRingView()
-            .foregroundStyle(.red),
-        GearRingView(toothCount: 7, toothDepthRatio: 0.5, spokeCount: 3, spokeWidthRatio: 0.9, includeCenterHole: true)
-            .foregroundStyle(.green)
-            .rotationEffect(.degrees(18)),
-        GearRingView(toothCount: 64, toothDepthRatio: 0.9, spokeCount: 12, includeCenterHole: false)
-            .foregroundStyle(.blue),
+        GearRing().stroke(lineWidth: 2).foregroundStyle(.blue),
+        GearRing(toothCount: 6, toothDepthRatio: 0.7, spokeCount: 12, spokeWidthRatio: 0.25, includeCenterHole: true).foregroundStyle(.green),
+        GearRing(toothCount: 48, toothDepthRatio: 0.9, spokeCount: 8, spokeWidthRatio: 0.8, includeCenterHole: false).foregroundStyle(.red),
     ]
     
     private let burst: [any View] = [
@@ -46,7 +42,7 @@ struct ContentView: View {
             .foregroundStyle(.orange),
     ]
     
-    private let streaks: [any View] = [
+    private let sparseStreaks: [any View] = [
         SparseStreakRing()
             .stroke(lineWidth: 1)
             .foregroundStyle(.blue),
@@ -58,26 +54,40 @@ struct ContentView: View {
         SparseStreakRing(thicknessRatio: 0.5, layerCount: 3, streaksPerLayer: 1...1)
             .stroke(style: StrokeStyle(lineWidth: 12, lineCap: .round))
             .foregroundStyle(.red),
-        ]
+    ]
+    
+    private let offsetStreaks: [any View] = [
+        OffsetStreakRing()
+            .stroke(style: StrokeStyle(lineWidth: 1))
+            .foregroundStyle(.blue),
+        
+        OffsetStreakRing(thicknessRatio: 0.5, streakSpan: .pi * 0.3333, clockwise: false)
+            .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
+            .foregroundStyle(.green),
+        
+        OffsetStreakRing(thicknessRatio: 0.6, streakCount: 12, streakSpan: .pi * 1.8, streakOffset: .pi * 0.05)
+            .stroke(style: StrokeStyle(lineWidth: 2))
+            .foregroundStyle(.red),
+    ]
     
     private let shader: [any View] = [
-            Circle()
-                .colorEffect(ShaderLibrary.truchetCurve(
-                    .float2(200, 200),
-                    .float(0)
-                )),
-            Circle()
-                .colorEffect(ShaderLibrary.truchetMaze(
-                    .float2(200, 200),
-                )),
+        Circle()
+            .colorEffect(ShaderLibrary.truchetCurve(
+                .float2(200, 200),
+                .float(0)
+            )),
+        Circle()
+            .colorEffect(ShaderLibrary.truchetMaze(
+                .float2(200, 200),
+            )),
         
     ]
     
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Shader Effects"]
     
     init() {
-        allViews = [gear, burst, tech, wave, streaks, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, shader]
     }
     
     var body: some View {
