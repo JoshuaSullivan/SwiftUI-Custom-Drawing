@@ -58,6 +58,7 @@ public struct WaveRing: Shape {
         return path
     }
     
+    /// Calculates two tangent points on a circle at a given angle and distance from the intersection point.
     func tangentPoints(circleCenter: CGPoint, radius: CGFloat, angleRadians: CGFloat, tangentDistance: CGFloat) -> (CGPoint, CGPoint) {
         // Calculate the point on the circle
         let pointOnCircle = CGPoint(

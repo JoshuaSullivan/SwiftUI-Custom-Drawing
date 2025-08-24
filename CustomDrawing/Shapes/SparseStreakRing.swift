@@ -34,12 +34,9 @@ public struct SparseStreakRing: Shape {
     }
     
     public nonisolated func path(in rect: CGRect) -> Path {
-        let dim = min(rect.width, rect.height)
-        let dx = (rect.width - dim) / 2 + rect.origin.x
-        let dy = (rect.height - dim) / 2 + rect.origin.y
-        let drawRect = CGRect(x: dx, y: dy, width: dim, height: dim)
-        let center = CGPoint(x: drawRect.midX, y: drawRect.midY)
-        let radius = dim * 0.5
+        let drawRect = rect.centeredSquare()
+        let center = rect.center
+        let radius = drawRect.width * 0.5
         let r0 = radius * (1 - thicknessRatio)
         let dr = (radius - r0) / CGFloat(streaks.count)
         var p = Path()

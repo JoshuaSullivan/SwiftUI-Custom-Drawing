@@ -136,11 +136,9 @@ public struct HollowTechRing: Shape {
     }
         
     public nonisolated func path(in rect: CGRect) -> Path {
-        let dim = min(rect.width, rect.height)
-        let dx = (rect.width - dim) / 2 + rect.origin.x
-        let dy = (rect.height - dim) / 2 + rect.origin.y
-        let drawRect = CGRect(x: dx, y: dy, width: dim, height: dim)
-        let radius = dim * 0.5
+        let drawRect = rect.centeredSquare()
+        let center = drawRect.center
+        let radius = drawRect.width * 0.5
         let inset = radius * insetRatio
         let thickness = radius * thicknessRatio
         let rectInset = thickness - inset

@@ -9,12 +9,9 @@ public struct GearRing: Shape {
     public var includeCenterHole: Bool
     
     public nonisolated func path(in rect: CGRect) -> Path {
-        let dim = min(rect.width, rect.height)
-        let dx = (rect.width - dim) / 2
-        let dy = (rect.height - dim) / 2
-        let drawRect = CGRect(x: dx, y: dy, width: dim, height: dim)
-        let center = CGPoint(x: drawRect.midX, y: drawRect.midY)
-        let rOuter = dim / 2
+        let drawRect = rect.centeredSquare()
+        let center = drawRect.center
+        let rOuter = drawRect.width * 0.5
         let rInner = rOuter * toothDepthRatio
         let toothAngle = (CGFloat.pi * 2) / CGFloat(toothCount)
         let segmentAngle = toothAngle / 4
