@@ -131,5 +131,8 @@ public struct HollowWaveRing: Shape {
             .foregroundStyle(.green)
         HollowWaveRing(amplitudeRatio: 0.9, frequency: 27, thicknessRatio: 0.1)
             .foregroundStyle(.red)
+        WaveRing(frequency: 16)
+            .stroke(style: StrokeStyle(lineWidth: 6, lineCap: .round, dash: [0.01, 8]))
+            .foregroundStyle(.gray)
     }
 }

@@ -40,6 +40,9 @@ struct ContentView: View {
             .foregroundStyle(.purple),
         HollowWaveRing(amplitudeRatio: 0.2, frequency: 1, thicknessRatio: 0.3)
             .foregroundStyle(.orange),
+        WaveRing(frequency: 16)
+            .stroke(style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [0.01, 6]))
+            .foregroundStyle(.gray),
     ]
     
     private let sparseStreaks: [any View] = [
@@ -71,14 +74,25 @@ struct ContentView: View {
     ]
     
     private let shader: [any View] = [
+        
+        Circle()
+            .colorEffect(ShaderLibrary.truchetHalfTri(
+                .float2(200, 200),
+                .color(.blue),
+                .color(.green),
+            )),
+        
         Circle()
             .colorEffect(ShaderLibrary.truchetCurve(
                 .float2(200, 200),
-                .float(0)
+                .color(.orange),
+                .color(.red),
             )),
         Circle()
             .colorEffect(ShaderLibrary.truchetMaze(
                 .float2(200, 200),
+                .color(.clear),
+                .color(.blue),
             )),
         
     ]
