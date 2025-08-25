@@ -73,6 +73,26 @@ struct ContentView: View {
             .foregroundStyle(.red),
     ]
     
+    private let gaugeRings: [any View] = [
+        GaugeRing()
+            .stroke(style: .init(lineWidth: 2))
+            .foregroundStyle(.blue),
+        
+        GaugeRing(tickCount: 120, thicknessRatio: 0.05)
+            .stroke(style: StrokeStyle(lineWidth: 1))
+            .foregroundStyle(.green),
+        
+        ZStack {
+            GaugeRing(tickCount: 64)
+                .stroke()
+                .foregroundStyle(.yellow)
+            
+            GaugeRing(tickCount: 16, thicknessRatio: 0.2)
+                .stroke(style: StrokeStyle(lineWidth: 2))
+                .foregroundStyle(.red)
+        }
+    ]
+    
     private let shader: [any View] = [
         
         Circle()
@@ -98,10 +118,10 @@ struct ContentView: View {
     ]
     
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Shader Effects"]
     
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gaugeRings, shader]
     }
     
     var body: some View {
