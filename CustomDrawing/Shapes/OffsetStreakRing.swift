@@ -1,15 +1,29 @@
 import SwiftUI
 
+/// A ring composed of multiple offset arcs (streaks) that create a dynamic, swirling effect.
 public struct OffsetStreakRing: Shape {
+    /// The ratio of the ring's thickness to its radius.
     public let thicknessRatio: CGFloat
+    /// The number of streaks in the ring.
     public let streakCount: Int
+    /// The angular span of each streak in radians.
     public let streakSpan: CGFloat
+    /// The angular offset between consecutive streaks in radians.
     public let streakOffset: CGFloat
+    /// Whether the streaks are drawn in a clockwise direction.
     public let clockwise: Bool
     
+    /// Initializes an `OffsetStreakRing` with the specified parameters.
+    /// - Parameters:
+    ///    - thicknessRatio: The ratio of the ring's thickness to its radius. Defaults to 0.25.
+    ///    - streakCount: The number of streaks in the ring. Minimum is 1. Defaults to 8.
+    ///    - streakSpan: The angular span of each streak in radians. Defaults to π.
+    ///    - streakOffset: The angular offset between consecutive streaks in radians. Defaults to π * 0.2.
+    ///    - clockwise: Whether the streaks are drawn in a clockwise direction. Defaults to true.
+    ///    
     public init(thicknessRatio: CGFloat = 0.25, streakCount: Int = 8, streakSpan: CGFloat = .pi, streakOffset: CGFloat = .pi * 0.2, clockwise: Bool = true) {
         self.thicknessRatio = thicknessRatio
-        self.streakCount = streakCount
+        self.streakCount = max(1, streakCount)
         self.streakSpan = streakSpan
         self.streakOffset = streakOffset
         self.clockwise = clockwise

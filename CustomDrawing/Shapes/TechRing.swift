@@ -9,16 +9,31 @@ public struct TechRing: Shape {
     
     private let spans: [CGFloat]
 
+    /// Initializes a `TechRing` with the specified parameters.
+    /// - Parameters:
+    ///    - insetRatio: The ratio of the notch inset to the radius. Default is 0.1.
+    ///    - spans: An array of `Span` objects defining the start and end angles of each notch.
+    ///
     public init(insetRatio: CGFloat = 0.1, spans: [Span]) {
         self.insetRatio = insetRatio
         self.spans = spans.flatMap { [$0.start.radians, $0.end.radians] }
     }
     
+    /// Initializes a `TechRing` with the specified parameters.
+    /// - Parameters:
+    ///   - insetRatio: The ratio of the notch inset to the radius. Default is 0.1.
+    ///   - rawSpans: An array of raw angle values (in radians) defining the start and end of each notch.
+    ///
     public init(insetRatio: CGFloat = 0.1, rawSpans: [CGFloat]) {
         self.insetRatio = insetRatio
         self.spans = rawSpans
     }
     
+    /// Initializes a `TechRing` with random notches.
+    /// - Parameters:
+    ///  - insetRatio: The ratio of the notch inset to the radius. Default is 0.1.
+    ///  - spanCountRange: The range of possible notch counts. Default is 2 to 5.
+    ///
     public init(insetRatio: CGFloat = 0.1, spanCountRange: ClosedRange<Int> = 2...5) {
         self.insetRatio = insetRatio
 
@@ -81,13 +96,24 @@ public struct TechRing: Shape {
     }
 }
 
+/// A shape that draws a hollow tech-style ring with customizable notches on both the outer and inner edges.
+///
 public struct HollowTechRing: Shape {
+    /// The percentage of the radius to inset the notches.
     public let insetRatio: CGFloat
+    /// The ratio of the ring's thickness to its radius.
     public let thicknessRatio: CGFloat
     
     private let outerSpans: [CGFloat]
     private let innerSpans: [CGFloat]
     
+    /// Initializes a `HollowTechRing` with random notches on both the outer and inner edges.
+    /// - Parameters:
+    ///   - insetRatio: The ratio of the notch inset to the radius. Default is 0.1.
+    ///   - thicknessRatio: The ratio of the ring's thickness to its radius. Default is 0.25.
+    ///   - outerSpanCountRange: The range of possible notch counts for the outer edge. Default is 2 to 5.
+    ///   - innerSpanCountRange: The range of possible notch counts for the inner edge. Default is 1 to 4.
+    ///
     public init(insetRatio: CGFloat = 0.1, thicknessRatio: CGFloat = 0.25, outerSpanCountRange: ClosedRange<Int> = 2...5, innerSpanCountRange: ClosedRange<Int> = 1...4) {
         self.insetRatio = insetRatio
         self.thicknessRatio = thicknessRatio
@@ -121,6 +147,13 @@ public struct HollowTechRing: Shape {
         self.innerSpans = spans.flatMap { $0 }
     }
     
+    /// Initializes a `HollowTechRing` with the specified outer and inner notches.
+    /// - Parameters:
+    ///   - insetRatio: The ratio of the notch inset to the radius. Default is 0.1.
+    ///   - thicknessRatio: The ratio of the ring's thickness to its radius. Default is 0.25.
+    ///   - outerSpans: An array of `Span` objects defining the start and end angles of each outer notch.
+    ///   - innerSpans: An array of `Span` objects defining the start and end angles of each inner notch.
+    ///
     public init(insetRatio: CGFloat = 0.1, thicknessRatio: CGFloat = 0.25, outerSpans: [Span], innerSpans: [Span]) {
         self.insetRatio = insetRatio
         self.thicknessRatio = thicknessRatio
@@ -128,6 +161,13 @@ public struct HollowTechRing: Shape {
         self.innerSpans = innerSpans.flatMap { [$0.start.radians, $0.end.radians] }
     }
     
+    /// Initializes a `HollowTechRing` with the specified outer and inner notches.
+    /// - Parameters:
+    ///   - insetRatio: The ratio of the notch inset to the radius. Default is 0.1.
+    ///   - thicknessRatio: The ratio of the ring's thickness to its radius. Default is 0.25.
+    ///   - rawOuterSpans: An array of raw angle values (in radians) defining the start and end of each outer notch.
+    ///   - rawInnerSpans: An array of raw angle values (in radians) defining the start and end of each inner notch.
+    ///
     public init(insetRatio: CGFloat = 0.1, thicknessRatio: CGFloat = 0.25, rawOuterSpans: [CGFloat], rawInnerSpans: [CGFloat]) {
         self.insetRatio = insetRatio
         self.thicknessRatio = thicknessRatio
@@ -137,7 +177,6 @@ public struct HollowTechRing: Shape {
         
     public nonisolated func path(in rect: CGRect) -> Path {
         let drawRect = rect.centeredSquare()
-        let center = drawRect.center
         let radius = drawRect.width * 0.5
         let inset = radius * insetRatio
         let thickness = radius * thicknessRatio
@@ -154,21 +193,21 @@ public struct HollowTechRing: Shape {
 
 #Preview {
     VStack {
-//        TechRing()
-//            .foregroundStyle(.blue)
+        TechRing()
+            .foregroundStyle(.blue)
         HollowTechRing(thicknessRatio: 0.25)
             .foregroundStyle(.green)
-//        ZStack {
-//            TechRing()
-//                .foregroundStyle(.red)
-//            HollowTechRing()
-//                .fill(.orange)
-//                .padding(40)
-//            TechRing(insetRatio: 0.2, spanCountRange: 1...3)
-//                .stroke(.black, lineWidth: 2)
-//                .fill(.yellow)
-//                .padding(80)
-//                
-//        }
+        ZStack {
+            TechRing()
+                .foregroundStyle(.red)
+            HollowTechRing()
+                .fill(.orange)
+                .padding(40)
+            TechRing(insetRatio: 0.2, spanCountRange: 1...3)
+                .stroke(.black, lineWidth: 2)
+                .fill(.yellow)
+                .padding(80)
+                
+        }
     }
 }

@@ -1,12 +1,49 @@
 import SwiftUI
 
+/// Draws a shape that looks like a gear or cog.
 public struct GearRing: Shape {
     
+    /// The number of teeth on the gear.
+    ///
+    /// Default value is `24`.
     public var toothCount: Int
+    
+    /// The ratio of the tooth depth to the radius of the ring.
+    ///
+    /// Default value is `0.8`.
     public var toothDepthRatio: CGFloat
+    
+    /// The number of inner spokes to draw.
+    ///
+    /// Default value is `6`.
     public var spokeCount: Int
+    
+    /// The ratio of spoke to empty space between spokes.
+    ///
+    /// Default value is `0.7`.
     public var spokeWidthRatio: CGFloat
+    
+    /// Whether or not to include the center hole.
+    ///
+    /// Default is `true`.
     public var includeCenterHole: Bool
+    
+    /// Creates a gear shape with the specified parameters.
+    ///
+    /// - Parameters:
+    ///     - toothCount: The number of teeth on the gear. Minimum is 2. Default is 24.
+    ///     - toothDepthRatio: The ratio of the tooth depth to the radius of the ring. Default is 0.8.
+    ///     - spokeCount: The number of inner spokes to draw. Minimum is 0. Default is 6.
+    ///     - spokeWidthRatio: The ratio of spoke to empty space between spokes. Default is 0.7.
+    ///     - includeCenterHole: Whether or not to include the center hole. Default is true.
+    ///
+    public init(toothCount: Int = 24, toothDepthRatio: CGFloat = 0.8, spokeCount: Int = 6, spokeWidthRatio: CGFloat = 0.7, includeCenterHole: Bool = true) {
+        self.toothCount = max(2, toothCount)
+        self.toothDepthRatio = toothDepthRatio
+        self.spokeCount = max(0, spokeCount)
+        self.spokeWidthRatio = spokeWidthRatio
+        self.includeCenterHole = includeCenterHole
+    }
     
     public nonisolated func path(in rect: CGRect) -> Path {
         let drawRect = rect.centeredSquare()
@@ -51,15 +88,6 @@ public struct GearRing: Shape {
         }
         return p.normalized(eoFill: true)
     }
-    
-    public init(toothCount: Int = 24, toothDepthRatio: CGFloat = 0.8, spokeCount: Int = 6, spokeWidthRatio: CGFloat = 0.7, includeCenterHole: Bool = true) {
-        self.toothCount = toothCount
-        self.toothDepthRatio = toothDepthRatio
-        self.spokeCount = spokeCount
-        self.spokeWidthRatio = spokeWidthRatio
-        self.includeCenterHole = includeCenterHole
-    }
-    
 }
 
 #Preview {
@@ -68,7 +96,7 @@ public struct GearRing: Shape {
             .stroke(lineWidth: 2)
             .foregroundStyle(.blue)
         
-        GearRing(toothCount: 6, toothDepthRatio: 0.7, spokeCount: 12, spokeWidthRatio: 0.25, includeCenterHole: true)
+        GearRing(toothCount: 6, toothDepthRatio: 0.7, spokeCount: 0)
             .foregroundStyle(.green)
         
         GearRing(toothCount: 48, toothDepthRatio: 0.9, spokeCount: 8, spokeWidthRatio: 0.8, includeCenterHole: false)

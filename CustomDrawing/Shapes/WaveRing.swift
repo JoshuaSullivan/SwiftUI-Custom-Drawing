@@ -10,11 +10,22 @@ import SwiftUI
 /// Approximates a sine wave in a circular path, creating a wave-like ring shape.
 public struct WaveRing: Shape {
     
+    /// The size of the waves relative to the radius.
     public var amplitudeRatio: CGFloat
+    /// The frequency of the wave pattern. That is, how many waves fit around the circle.
     public var frequency: Int
+    /// The ratio of the control point distance to the arc length for the outer wave peaks.
     public var outerControlRatio: CGFloat
+    /// The ratio of the control point distance to the arc length for the inner wave valleys.
     public var innerControlRatio: CGFloat
     
+    /// Creates a `WaveRing` shape with the specified parameters.
+    /// - Parameters:
+    ///  - amplitudeRatio: The size of the waves relative to the radius. Default is `0.8`. Clamped to range between `0.1` and `0.95`.
+    ///  - frequency: The frequency of the wave pattern. That is, how many waves fit around the circle. Default is `6`. Clamped to range between `1` and `60`.
+    ///  - outerControlRatio: The ratio of the control point distance to the arc length for the outer wave peaks. Default is `0.25`.
+    ///  - innerControlRatio: The ratio of the control point distance to the arc length for the inner wave valleys. Default is `0.275`.
+    ///
     init(amplitudeRatio: CGFloat = 0.8, frequency: Int = 6, outerControlRatio: CGFloat = 0.25, innerControlRatio: CGFloat = 0.275) {
         self.amplitudeRatio = max(0.1, min(amplitudeRatio, 0.95))
         self.frequency = max(1, min(frequency, 60))
@@ -98,12 +109,23 @@ public struct HollowWaveRing: Shape {
     /// The frequency of the wave pattern.
     public let frequency: Int
     
+    /// The ratio of the ring's thickness to its radius.
     public let outerControlRatio: CGFloat
     
+    /// The ratio of the control point distance to the arc length for the inner wave valleys.
     public let innerControlRatio: CGFloat
     
+    /// The ratio of the ring's thickness to its radius.
     public let thicknessRatio: CGFloat
     
+    /// Creates a `HollowWaveRing` shape with the specified parameters.
+    /// - Parameters:
+    ///  - amplitudeRatio: The size of the waves relative to the radius. Default is `0.8`. Clamped to range between `0.1` and `0.95`.
+    ///  - frequency: The frequency of the wave pattern. That is, how many waves fit around the circle. Default is `6`. Clamped to range between `1` and `60`.
+    ///  - outerControlRatio: The ratio of the control point distance to the arc length for the outer wave peaks. Default is `0.25`.
+    ///  - innerControlRatio: The ratio of the control point distance to the arc length for the inner wave valleys. Default is `0.275`.
+    ///  - thicknessRatio: The ratio of the ring's thickness to its radius. Default is `0.2`. Clamped to range between `0.01` and `0.99`.
+    ///
     init(amplitudeRatio: CGFloat = 0.8, frequency: Int = 6, outerControlRatio: CGFloat = 0.25, innerControlRatio: CGFloat = 0.275, thicknessRatio: CGFloat = 0.2) {
         self.amplitudeRatio = max(0.1, min(amplitudeRatio, 0.95))
         self.frequency = max(1, min(frequency, 60))

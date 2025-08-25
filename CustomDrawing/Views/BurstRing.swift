@@ -1,9 +1,10 @@
 import SwiftUI
 
+/// A view that draws a burst ring with randomly spaced and sized spokes.
 public struct BurstRing: View {
     
     /// A point on the ring where a color spoke is drawn.
-    private struct Spoke {
+    public struct Spoke {
         /// The center angle of the spoke, in degrees.
         let angle: CGFloat
         /// The angular width of the spoke, in degrees.
@@ -12,17 +13,11 @@ public struct BurstRing: View {
     
     /// The thickness of the ring. The ring is always inset from the view bounds.
     public let thickness: CGFloat
-    
     /// The background color of the ring.
     public let backgroundColor: Color
     /// The foreground color of the ring's spokes.
     public let foregroundColor: Color
-    
-    /// The range of width angles for the spokes. In degrees.
-    public let widthRange: ClosedRange<CGFloat>
-    /// The range of spacing angles between the spokes. In degrees.
-    public let spacingRange: ClosedRange<CGFloat>
-    
+        
     @State
     private var spokes: [Spoke]
     
@@ -52,8 +47,6 @@ public struct BurstRing: View {
         self.thickness = thickness
         self.backgroundColor = backgroundColor
         self.foregroundColor = foregroundColor
-        self.widthRange = widthRange
-        self.spacingRange = spacingRange
         
         var spokes: [Spoke] = []
         let aOffset = CGFloat.random(in: 0...360)
@@ -66,6 +59,22 @@ public struct BurstRing: View {
         }
         self.spokes = spokes
     }
+    
+    /// Creates a burst ring with pre-specified spokes.
+    ///
+    /// - Parameters:
+    ///     - thickness: The thickness of the ring.
+    ///     - backgroundColor: The background color of the ring.
+    ///     - foregroundColor: The color of the spokes.
+    ///     - spokes: An array of `Spoke` objects defining the angle and width of each spoke.
+    ///
+    public init(thickness: CGFloat, backgroundColor: Color, foregroundColor: Color, spokes: [Spoke]) {
+        self.thickness = thickness
+        self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
+        self.spokes = spokes
+    }
+        
     
     private func createRays(from spokes: [Spoke], in rect: CGRect) -> Path {
         let r = rect.width / 2

@@ -16,6 +16,7 @@ public struct SparseStreakRing: Shape {
     ///     - thicknessRatio: The ratio of the ring's thickness to its radius. Defaults to 0.25.
     ///     - layerCount: The number of concentric layers in the ring. Defaults to 6.
     ///     - streaksPerLayer: The range of possible streak counts per layer. Defaults to 1...6.
+    ///     
     init(thicknessRatio: CGFloat = 0.25, layerCount: Int = 6, streaksPerLayer: ClosedRange<Int> = 1...6) {
         self.thicknessRatio = thicknessRatio
         
