@@ -73,7 +73,7 @@ struct ContentView: View {
             .foregroundStyle(.red),
     ]
     
-    private let gaugeRings: [any View] = [
+    private let gauge: [any View] = [
         GaugeRing()
             .stroke(style: .init(lineWidth: 2))
             .foregroundStyle(.blue),
@@ -91,6 +91,20 @@ struct ContentView: View {
                 .stroke(style: StrokeStyle(lineWidth: 2))
                 .foregroundStyle(.red)
         }
+    ]
+    
+    private let broadcast: [any View] = [
+        BroadcastRing()
+            .stroke(lineWidth: 2)
+            .foregroundStyle(.blue),
+        
+        BroadcastRing(thicknessRatio: 0.5, layerCount: 12, rayCountRange: 3...3, uniformSpacing: false)
+            .stroke()
+            .foregroundStyle(.green),
+        
+        BroadcastRing(thicknessRatio: 0.9, layerCount: 8, rayCountRange: 6...6, spanWidthRatioRange: 0.3...0.3, uniformSpacing: true)
+            .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round))
+            .foregroundStyle(.red),
     ]
     
     private let shader: [any View] = [
@@ -118,10 +132,10 @@ struct ContentView: View {
     ]
     
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Shader Effects"]
     
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gaugeRings, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, shader]
     }
     
     var body: some View {
