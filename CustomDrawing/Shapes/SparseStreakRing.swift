@@ -9,7 +9,7 @@ public struct SparseStreakRing: Shape {
     public let thicknessRatio: CGFloat
     
     /// The precalculated streaks for each layer of the ring.
-    private let streaks: [[Span]]
+    private let streaks: [[Arc]]
     
     /// Initializes a `SparseStreakRing` with the specified parameters.
     /// - Parameters:
@@ -24,12 +24,12 @@ public struct SparseStreakRing: Shape {
             let streakCount = Int.random(in: streaksPerLayer)
             let aOffset = CGFloat.random(in: 0..<(2 * .pi))
             return (0..<streakCount).map { i in
-                let angleSpan = (2 * CGFloat.pi) / CGFloat(streakCount)
-                let a0 = angleSpan * CGFloat(i) + aOffset
-                let a1 = a0 + angleSpan
-                let start = a0 + CGFloat.random(in: 0..<(angleSpan * 0.49))
-                let end = a1 - CGFloat.random(in: 0..<(angleSpan * 0.49))
-                return Span(start: .radians(start), end: .radians(end))
+                let angleArc = (2 * CGFloat.pi) / CGFloat(streakCount)
+                let a0 = angleArc * CGFloat(i) + aOffset
+                let a1 = a0 + angleArc
+                let start = a0 + CGFloat.random(in: 0..<(angleArc * 0.49))
+                let end = a1 - CGFloat.random(in: 0..<(angleArc * 0.49))
+                return Arc(start: .radians(start), end: .radians(end))
             }
         }
     }

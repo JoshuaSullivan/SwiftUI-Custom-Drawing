@@ -24,9 +24,9 @@ struct ContentView: View {
     private let tech: [any View] = [
         TechRing().foregroundStyle(.blue),
         HollowTechRing(thicknessRatio: 0.25).foregroundStyle(.green),
-        TechRing(insetRatio: 0.05, spanCountRange: 6...6).stroke(.red, lineWidth: 4),
+        TechRing(insetRatio: 0.05, arcCountRange: 6...6).stroke(.red, lineWidth: 4),
         HollowTechRing().fill(.orange),
-        TechRing(insetRatio: 0.2, spanCountRange: 1...3).stroke(.black, lineWidth: 2).fill(.yellow),
+        TechRing(insetRatio: 0.2, arcCountRange: 1...3).stroke(.black, lineWidth: 2).fill(.yellow),
     ]
     
     private let wave: [any View] = [
@@ -64,11 +64,11 @@ struct ContentView: View {
             .stroke(style: StrokeStyle(lineWidth: 1))
             .foregroundStyle(.blue),
         
-        OffsetStreakRing(thicknessRatio: 0.5, streakSpan: .pi * 0.3333, clockwise: false)
+        OffsetStreakRing(thicknessRatio: 0.5, streakArc: .pi * 0.3333, clockwise: false)
             .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
             .foregroundStyle(.green),
         
-        OffsetStreakRing(thicknessRatio: 0.6, streakCount: 12, streakSpan: .pi * 1.8, streakOffset: .pi * 0.05)
+        OffsetStreakRing(thicknessRatio: 0.6, streakCount: 12, streakArc: .pi * 1.8, streakOffset: .pi * 0.05)
             .stroke(style: StrokeStyle(lineWidth: 2))
             .foregroundStyle(.red),
     ]
@@ -102,7 +102,7 @@ struct ContentView: View {
             .stroke()
             .foregroundStyle(.green),
         
-        BroadcastRing(thicknessRatio: 0.9, layerCount: 8, rayCountRange: 6...6, spanWidthRatioRange: 0.3...0.3, uniformSpacing: true)
+        BroadcastRing(thicknessRatio: 0.9, layerCount: 8, rayCountRange: 6...6, arcWidthRatioRange: 0.3...0.3, uniformSpacing: true)
             .stroke(style: StrokeStyle(lineWidth: 3, lineCap: .round))
             .foregroundStyle(.red),
     ]
