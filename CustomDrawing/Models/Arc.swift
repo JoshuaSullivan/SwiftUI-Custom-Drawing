@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Represents a arc of angles in the ring, defined by a start and end angle.
-public struct Arc: Sendable {
+/// Represents an arc in the ring, defined by a start and end angle.
+public nonisolated struct Arc: Sendable {
     
     /// The start angle of the arc.
     public let start: Angle

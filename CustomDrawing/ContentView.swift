@@ -107,6 +107,20 @@ struct ContentView: View {
             .foregroundStyle(.red),
     ]
     
+    private let racetrack: [any View] = [
+        RacetrackRing()
+            .stroke(lineWidth: 2)
+            .foregroundStyle(.blue),
+
+        RacetrackRing(thicknessRatio: 0.3, loopCount: 1, arc: Arc(start: .degrees(270), end: .degrees(90)))
+            .stroke(style: StrokeStyle(lineWidth: 16, lineCap: .round))
+            .foregroundStyle(.green),
+
+        RacetrackRing(thicknessRatio: 0.5, loopCount: 5, arc: Arc(start: .degrees(135), end: .degrees(225)))
+            .stroke(lineWidth: 4)
+            .foregroundStyle(.red),
+    ]
+
     private let shader: [any View] = [
         
         Circle()
@@ -132,10 +146,10 @@ struct ContentView: View {
     ]
     
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Shader Effects"]
-    
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Shader Effects"]
+
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, shader]
     }
     
     var body: some View {

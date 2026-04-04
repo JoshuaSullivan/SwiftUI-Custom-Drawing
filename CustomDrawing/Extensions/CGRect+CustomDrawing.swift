@@ -2,7 +2,7 @@ import CoreFoundation
 
 public extension CGRect {
     /// Returns a square CGRect centered within this CGRect.
-    func centeredSquare() -> CGRect {
+    nonisolated func centeredSquare() -> CGRect {
         let dim = min(self.width, self.height)
         let dx = (self.width - dim) / 2
         let dy = (self.height - dim) / 2
@@ -10,7 +10,7 @@ public extension CGRect {
     }
     
     /// The center point of the CGRect.
-    var center: CGPoint {
+    nonisolated var center: CGPoint {
         CGPoint(x: self.midX, y: self.midY)
     }
 }
