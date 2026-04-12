@@ -144,8 +144,22 @@ struct ContentView: View {
         ),
     ]
 
+    private let cyclomatRing: [any View] = [
+        CyclomatRing(loopCount: 12)
+            .stroke(lineWidth: 4)
+            .foregroundStyle(.blue),
+
+        CyclomatRing(thicknessRatio: 0.5, segmentsPerLoop: 7)
+            .stroke(lineWidth: 6)
+            .foregroundStyle(.green),
+
+        CyclomatRing(thicknessRatio: 0.5, loopCount: 60)
+            .stroke(lineWidth: 1)
+            .foregroundStyle(.red),
+    ]
+
     private let shader: [any View] = [
-        
+
         Circle()
             .colorEffect(ShaderLibrary.truchetHalfTri(
                 .float2(200, 200),
@@ -169,10 +183,10 @@ struct ContentView: View {
     ]
     
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Shader Effects"]
 
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, shader]
     }
     
     var body: some View {
