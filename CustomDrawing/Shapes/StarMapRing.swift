@@ -37,80 +37,74 @@ public struct StarMapRing: View {
     public let nodeCount: Int
     public let nodeReach: Int
     public let nodeRadius: CGFloat
+    /// Opacity applied to the connecting lines between nodes. Expected range `0...1`.
+    /// Nodes themselves render at full opacity.
+    public let lineOpacity: CGFloat
 
-    public let strands: [Strand]
+    /// Normalized (angle, radius) node data held in `@State` so the random star
+    /// pattern stays stable across view re-initializations. Only the absolute
+    /// coordinates derived from these values get recomputed when the bounds
+    /// change.
+    @State private var strands: [Strand]
 
-    @State private var cache: [CGRect : (nodes: [CGPoint], connections: [(CGPoint, CGPoint)])] = [:]
+    /// Cached drawing bounds and the node positions computed for those bounds.
+    /// Updated from `onGeometryChange` so state mutation happens outside of the
+    /// Canvas renderer (which would otherwise trigger the "modifying state
+    /// during view update" runtime warning).
+    @State private var cachedBounds: CGRect = .zero
+    @State private var cachedPositions: [CGPoint] = []
 
-    public init(thicknessRatio: CGFloat = 0.5, strandCount: Int = 3, nodeCount: Int = 20, nodeReach: Int = 1, nodeRadius: CGFloat = 10) {
+    /// Connection topology as pairs of indices into the flat positions array.
+    /// Depends only on the init parameters, so it's computed once per struct
+    /// instance and reused on every draw.
+    private let connectionIndices: [(from: Int, to: Int)]
+
+    public init(
+        thicknessRatio: CGFloat = 0.5,
+        strandCount: Int = 3,
+        nodeCount: Int = 20,
+        nodeReach: Int = 1,
+        nodeRadius: CGFloat = 10,
+        lineOpacity: CGFloat = 0.5
+    ) {
         self.thicknessRatio = thicknessRatio
         self.strandCount = strandCount
         self.nodeCount = nodeCount
         self.nodeReach = nodeReach
         self.nodeRadius = nodeRadius
+        self.lineOpacity = lineOpacity
 
-        strands = (0..<strandCount).map { _ in
-            Strand(nodeCount: nodeCount, centerBiasStrength: 2)
-        }
+        _strands = State(initialValue: Self.makeStrands(strandCount: strandCount, nodeCount: nodeCount))
+        connectionIndices = Self.makeConnectionIndices(
+            strandCount: strandCount,
+            nodeCount: nodeCount,
+            nodeReach: nodeReach
+        )
     }
 
     public var body: some View {
         Canvas { ctx, size in
             let bounds = CGRect(origin: .zero, size: size).centeredSquare()
-            let resolvedNodes: [CGPoint]
-            let connections: [(CGPoint, CGPoint)]
-            if let cachedValues = cache[bounds] {
-                resolvedNodes = cachedValues.nodes
-                connections = cachedValues.connections
+            let expectedCount = strands.reduce(0) { $0 + $1.nodes.count }
+            let positions: [CGPoint]
+            if bounds == cachedBounds, cachedPositions.count == expectedCount {
+                positions = cachedPositions
             } else {
-                let r1NoInset = (bounds.width) / 2
-                let r0NoInset = r1NoInset * (1 - thicknessRatio)
-                let r1 = r1NoInset - nodeRadius / 2
-                let r0 = r0NoInset + nodeRadius / 2
-                let dr = r1 - r0
-                // Divide the radial range into strandCount lanes. Each strand's
-                // window spans 2 lane widths, centered on its lane midpoint, so
-                // neighbors overlap by one lane. The center bias on node.radius
-                // keeps most nodes near the lane center despite the wider window.
-                let laneWidth = dr / CGFloat(strandCount)
-                let center = bounds.center
-                let res = strands.enumerated().map { index, strand in
-                    let laneMid = r0 + (CGFloat(index) + 0.5) * laneWidth
-                    let r0s = max(r0, laneMid - laneWidth)
-                    let r1s = min(r1, laneMid + laneWidth)
-                    let drs = r1s - r0s
-                    return strand.nodes.map { node in
-                        let x = center.x + cos(node.angle) * (node.radius * drs + r0s)
-                        let y = center.y + sin(node.angle) * (node.radius * drs + r0s)
-                        return CGPoint(x: x, y: y)
-                    }
-                }
-                let con: [(CGPoint, CGPoint)] = zip(res, res.dropFirst()).flatMap { s0, s1 in
-                    let c = s0.count
-                    return (0..<c).flatMap { i in
-                        let p0 = s0[i]
-                        return ((i - nodeReach)...(i + nodeReach)).map { j in
-                            let index = (j + c) % c
-                            let p1 = s1[index]
-                            return (p0, p1)
-                        }
-                    }
-                }
-                let resNodes = res.flatMap { $0 }
-                cache.removeAll()
-                cache[bounds] = (nodes: resNodes, connections: con)
-                resolvedNodes = resNodes
-                connections = con
+                positions = computePositions(for: bounds, strands: strands)
             }
-            for c in connections {
-                var p = Path()
-                p.move(to: c.0)
-                p.addLine(to: c.1)
-                ctx.stroke(p, with: .foreground, lineWidth: 1)
+            guard !positions.isEmpty else { return }
+            let previousOpacity = ctx.opacity
+            ctx.opacity = previousOpacity * Double(lineOpacity)
+            for pair in connectionIndices where pair.from < positions.count && pair.to < positions.count {
+                var path = Path()
+                path.move(to: positions[pair.from])
+                path.addLine(to: positions[pair.to])
+                ctx.stroke(path, with: .foreground, lineWidth: 1)
             }
+            ctx.opacity = previousOpacity
             if let dot = ctx.resolveSymbol(id: "node") {
-                for n in resolvedNodes {
-                    ctx.draw(dot, at: n)
+                for point in positions {
+                    ctx.draw(dot, at: point)
                 }
             }
         } symbols: {
@@ -126,6 +120,83 @@ public struct StarMapRing: View {
                 }
                 .frame(width: nodeRadius * 2, height: nodeRadius * 2)
                 .tag("node")
+        }
+        .onGeometryChange(for: CGRect.self) { proxy in
+            CGRect(origin: .zero, size: proxy.size).centeredSquare()
+        } action: { _, newBounds in
+            guard newBounds != cachedBounds else { return }
+            cachedBounds = newBounds
+            cachedPositions = computePositions(for: newBounds, strands: strands)
+        }
+        .onChange(of: GenerationKey(strandCount: strandCount, nodeCount: nodeCount)) { _, newKey in
+            let regenerated = Self.makeStrands(strandCount: newKey.strandCount, nodeCount: newKey.nodeCount)
+            strands = regenerated
+            cachedPositions = computePositions(for: cachedBounds, strands: regenerated)
+        }
+        .onChange(of: LayoutKey(thicknessRatio: thicknessRatio, nodeRadius: nodeRadius, strandCount: strandCount)) { _, _ in
+            cachedPositions = computePositions(for: cachedBounds, strands: strands)
+        }
+    }
+
+    // MARK: - Private helpers
+
+    private struct GenerationKey: Equatable {
+        let strandCount: Int
+        let nodeCount: Int
+    }
+
+    private struct LayoutKey: Equatable {
+        let thicknessRatio: CGFloat
+        let nodeRadius: CGFloat
+        let strandCount: Int
+    }
+
+    private static func makeStrands(strandCount: Int, nodeCount: Int) -> [Strand] {
+        (0..<strandCount).map { _ in
+            Strand(nodeCount: nodeCount, centerBiasStrength: 2)
+        }
+    }
+
+    private static func makeConnectionIndices(
+        strandCount: Int,
+        nodeCount: Int,
+        nodeReach: Int
+    ) -> [(from: Int, to: Int)] {
+        guard strandCount > 1, nodeCount > 0 else { return [] }
+        var indices: [(from: Int, to: Int)] = []
+        indices.reserveCapacity((strandCount - 1) * nodeCount * (2 * nodeReach + 1))
+        for s in 0..<(strandCount - 1) {
+            let fromBase = s * nodeCount
+            let toBase = (s + 1) * nodeCount
+            for i in 0..<nodeCount {
+                for offset in (-nodeReach)...nodeReach {
+                    let wrapped = ((i + offset) % nodeCount + nodeCount) % nodeCount
+                    indices.append((from: fromBase + i, to: toBase + wrapped))
+                }
+            }
+        }
+        return indices
+    }
+
+    private func computePositions(for bounds: CGRect, strands: [Strand]) -> [CGPoint] {
+        guard bounds.width > 0, !strands.isEmpty else { return [] }
+        let outerRadius = bounds.width / 2 - nodeRadius / 2
+        let innerRadius = (bounds.width / 2) * (1 - thicknessRatio) + nodeRadius / 2
+        let radialRange = outerRadius - innerRadius
+        let laneWidth = radialRange / CGFloat(max(1, strandCount))
+        let center = bounds.center
+        return strands.enumerated().flatMap { index, strand in
+            let laneMid = innerRadius + (CGFloat(index) + 0.5) * laneWidth
+            let r0 = max(innerRadius, laneMid - laneWidth)
+            let r1 = min(outerRadius, laneMid + laneWidth)
+            let dr = r1 - r0
+            return strand.nodes.map { node in
+                let radius = node.radius * dr + r0
+                return CGPoint(
+                    x: center.x + cos(node.angle) * radius,
+                    y: center.y + sin(node.angle) * radius
+                )
+            }
         }
     }
 }
@@ -146,7 +217,7 @@ private extension CGFloat {
             .foregroundStyle(.blue)
         StarMapRing(thicknessRatio: 0.9, strandCount: 5, nodeCount: 30, nodeReach: 2, nodeRadius: 6)
             .foregroundStyle(.green)
-        StarMapRing(thicknessRatio: 0.4 , strandCount: 2, nodeCount: 15, nodeRadius: 14)
+        StarMapRing(thicknessRatio: 0.4 , strandCount: 2, nodeCount: 15, nodeRadius: 14, lineOpacity: 1)
             .foregroundStyle(.red)
     }
     .padding()
