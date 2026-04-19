@@ -158,6 +158,15 @@ struct ContentView: View {
             .foregroundStyle(.red),
     ]
 
+    private let starMapRing: [any View] = [
+        StarMapRing()
+            .foregroundStyle(.blue),
+        StarMapRing(thicknessRatio: 0.9, strandCount: 5, nodeCount: 30, nodeReach: 2, nodeRadius: 6)
+            .foregroundStyle(.green),
+        StarMapRing(thicknessRatio: 0.4 , strandCount: 2, nodeCount: 15, nodeRadius: 14)
+            .foregroundStyle(.red),
+    ]
+
     private let shader: [any View] = [
 
         Circle()
@@ -183,10 +192,10 @@ struct ContentView: View {
     ]
     
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Star Map Ring", "Shader Effects"]
 
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, starMapRing, shader]
     }
     
     var body: some View {
