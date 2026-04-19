@@ -45,7 +45,7 @@ public struct RacetrackRing: Shape {
             let r0 = radius - CGFloat(i) * dr
             let r1 = rInner + CGFloat(i) * dr
             let capRadius = (r0 - r1) / 2
-            p.move(to: .init(x: center.x + cos(a0.radians) * r0, y: center.y + sin(a0.radians) * r0))
+            p.move(to: CGPoint(x: center.x + cos(a0.radians) * r0, y: center.y + sin(a0.radians) * r0))
             p.addArc(center: center, radius: r0, startAngle: a0, endAngle: a1, clockwise: false)
             p.addArc(center: cap1, radius: capRadius, startAngle: a1, endAngle: a1 + _180, clockwise: false)
             p.addArc(center: center, radius: r1, startAngle: a1, endAngle: a0, clockwise: true)

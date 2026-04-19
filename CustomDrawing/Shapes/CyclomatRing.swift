@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// A shape that traces an epicycloid (spirograph-style) ring by rolling a small circle
-/// around the inside of a larger circle, producing petal-like loops.
+/// A shape that traces a hypo- or epicycloid (spirograph-style) rings by rolling a small circle
+/// around the inside or outside (respectively) of a larger circle, producing petal-like loops.
 ///
 /// The shape is parameterized by:
 /// - A **thickness ratio** that controls how far the smaller circle's radius extends
@@ -14,7 +14,7 @@ import SwiftUI
 /// The resulting path is always inscribed within the largest centered square that fits
 /// the provided rect.
 ///
-/// *Inspired by Jesse Hemmingway's "Cyclomat" app!*
+/// *Inspired by Jesse Hemingway's "Cyclomat" app!*
 ///
 public struct CyclomatRing: Shape {
 
@@ -23,8 +23,10 @@ public struct CyclomatRing: Shape {
     /// further toward the center; smaller values produce a shape closer to a plain circle.
     public let thicknessRatio: CGFloat
 
-    /// The number of epicycle loops (petals) distributed around the ring.
-    /// Clamped to `2...360`.
+    /// The number of loops (petals) distributed around the ring.
+    /// While this can be negative, the absolute value is clamped to `2...360`.
+    /// When positive, results in a hypocycloid shape (circle rotating inside a circle).
+    /// When negative, results in an epicycloid shape (circle rotating outside a circle).
     public let loopCount: Int
 
     /// The starting angle (in radians) of the large circle's rotation.
@@ -56,7 +58,7 @@ public struct CyclomatRing: Shape {
         segmentsPerLoop: Int = 60
     ) {
         self.thicknessRatio = max(0.01, min(0.99, thicknessRatio))
-        self.loopCount = max(2, min(360, loopCount))
+        self.loopCount = loopCount != 0 ? max(2, min(360, abs(loopCount))) * loopCount.signum() : 2
         self.angle0 = angle0
         self.angle1 = angle1
         self.segmentsPerLoop = max(3, min(360, segmentsPerLoop))
@@ -72,7 +74,9 @@ public struct CyclomatRing: Shape {
         let r0 = radius * (1 - thicknessRatio / 2)
         let r1 = radius * thicknessRatio / 2
 
-        let steps = loopCount * segmentsPerLoop
+        // Compensate negative loop counts to achieve the expected number of petals.
+        let loopCount = loopCount < 0 ? loopCount + 1 : loopCount
+        let steps = abs(loopCount) * segmentsPerLoop
         let da: CGFloat = (2 * .pi) / CGFloat(steps)
         let daEpicycle = da * CGFloat(loopCount)
 
@@ -96,7 +100,7 @@ public struct CyclomatRing: Shape {
 
 #Preview {
     VStack {
-        CyclomatRing(loopCount: 12)
+        CyclomatRing(loopCount: -12)
             .stroke(style: StrokeStyle(lineWidth: 4.0))
             .foregroundStyle(Color.blue)
         CyclomatRing(thicknessRatio: 0.5, segmentsPerLoop: 7)
