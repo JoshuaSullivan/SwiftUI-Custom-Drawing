@@ -37,10 +37,10 @@ public struct MetaRingLayout: Layout {
         let placementRadius = radius * (1 - thicknessRatio)
         let childSize = radius * thicknessRatio * 2
         let childProposal = ProposedViewSize(width: childSize, height: childSize)
-        let angleStep = (2 * .pi) / Double(count)
+        let angleStep = .twoPi / Double(count)
 
         for (index, subview) in subviews.enumerated() {
-            let angle = angleStep * Double(index) - .pi / 2
+            let angle = angleStep * Double(index) - .halfPi
             let point = CGPoint(
                 x: center.x + placementRadius * cos(angle),
                 y: center.y + placementRadius * sin(angle)

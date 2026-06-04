@@ -30,12 +30,12 @@ public struct CyclomatRing: Shape {
     public let loopCount: Int
 
     /// The starting angle (in radians) of the large circle's rotation.
-    /// Defaults to `-.pi / 2` so the first petal points upward.
+    /// Defaults to `-.halfPi` so the first petal points upward.
     public let angle0: CGFloat
 
     /// The starting angle (in radians) of the small circle's rotation.
     /// Adjusting this shifts the phase of the petal pattern relative to the ring.
-    /// Defaults to `-.pi / 2`.
+    /// Defaults to `-.halfPi`.
     public let angle1: CGFloat
 
     /// The number of line segments used to approximate each epicycle loop.
@@ -47,14 +47,14 @@ public struct CyclomatRing: Shape {
     /// - Parameters:
     ///   - thicknessRatio: The ratio of the epicycle diameter to the overall radius. Default is `0.25`.
     ///   - loopCount: The number of petals around the ring. Default is `16`.
-    ///   - angle0: The starting angle of the large circle in radians. Default is `-.pi / 2`.
-    ///   - angle1: The starting angle of the small circle in radians. Default is `-.pi / 2`.
+    ///   - angle0: The starting angle of the large circle in radians. Default is `-.halfPi`.
+    ///   - angle1: The starting angle of the small circle in radians. Default is `-.halfPi`.
     ///   - segmentsPerLoop: The number of line segments per petal. Default is `60`.
     public init(
         thicknessRatio: CGFloat = 0.25,
         loopCount: Int = 16,
-        angle0: CGFloat = -.pi / 2.0,
-        angle1: CGFloat = -.pi / 2.0,
+        angle0: CGFloat = -.halfPi,
+        angle1: CGFloat = -.halfPi,
         segmentsPerLoop: Int = 60
     ) {
         self.thicknessRatio = max(0.01, min(0.99, thicknessRatio))
@@ -77,7 +77,7 @@ public struct CyclomatRing: Shape {
         // Compensate negative loop counts to achieve the expected number of petals.
         let loopCount = loopCount < 0 ? loopCount + 1 : loopCount
         let steps = abs(loopCount) * segmentsPerLoop
-        let da: CGFloat = (2 * .pi) / CGFloat(steps)
+        let da: CGFloat = .twoPi / CGFloat(steps)
         let daEpicycle = da * CGFloat(loopCount)
 
         var p = Path()

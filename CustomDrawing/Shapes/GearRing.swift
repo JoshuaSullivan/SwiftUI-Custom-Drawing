@@ -50,7 +50,7 @@ public struct GearRing: Shape {
         let center = drawRect.center
         let rOuter = drawRect.width * 0.5
         let rInner = rOuter * toothDepthRatio
-        let toothAngle = (CGFloat.pi * 2) / CGFloat(toothCount)
+        let toothAngle = .twoPi / CGFloat(toothCount)
         let segmentAngle = toothAngle / 4
         var p = Path()
         p.move(to: CGPoint(x: rInner + center.x, y: center.y))
@@ -63,11 +63,11 @@ public struct GearRing: Shape {
             }
         }
         if spokeCount >= 2 {
-            let holeWidth = (CGFloat.pi * 2) / CGFloat(spokeCount) * spokeWidthRatio
+            let holeWidth = .twoPi / CGFloat(spokeCount) * spokeWidthRatio
             let sOuter = rOuter * (toothDepthRatio - 0.1)
             let sInner = sOuter * 0.35
             for i in 0..<spokeCount {
-                let a0 = (CGFloat.pi * 2 / CGFloat(spokeCount)) * CGFloat(i)
+                let a0 = (.twoPi / CGFloat(spokeCount)) * CGFloat(i)
                 let a1 = a0 + holeWidth
                 let a2 = a1 - holeWidth * 0.25 * spokeWidthRatio
                 let a3 = a0 + holeWidth * 0.25 * spokeWidthRatio
@@ -81,10 +81,10 @@ public struct GearRing: Shape {
             if includeCenterHole {
                 let holeRadius = sInner * 0.4
                 p.move(to: CGPoint(x: center.x + holeRadius, y: center.y))
-                p.addArc(center: center, radius: holeRadius, startAngle: .radians(0), endAngle: .radians(CGFloat.pi * 2), clockwise: false)
+                p.addArc(center: center, radius: holeRadius, startAngle: .radians(0), endAngle: .radians(.twoPi), clockwise: false)
             }
         } else if includeCenterHole {
-            p.addArc(center: center, radius: rOuter * 0.1, startAngle: .radians(0), endAngle: .radians(CGFloat.pi * 2), clockwise: false)
+            p.addArc(center: center, radius: rOuter * 0.1, startAngle: .radians(0), endAngle: .radians(.twoPi), clockwise: false)
         }
         return p.normalized(eoFill: true)
     }

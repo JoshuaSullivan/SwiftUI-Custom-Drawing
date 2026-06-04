@@ -45,10 +45,10 @@ public struct WaveRing: Shape {
     private func createBezierWavePath(center: CGPoint, outerRadius: CGFloat, innerRadius: CGFloat, frequency: Int) -> Path {
         var path = Path()
         
-        let theta = (2 * CGFloat.pi) / CGFloat(frequency)
+        let theta = .twoPi / CGFloat(frequency)
         let halfTheta = theta * 0.5
-        let cDistOuter = ((2 * CGFloat.pi * outerRadius) / CGFloat(frequency)) * outerControlRatio
-        let cDistInner = ((2 * CGFloat.pi * innerRadius) / CGFloat(frequency)) * innerControlRatio
+        let cDistOuter = ((.twoPi * outerRadius) / CGFloat(frequency)) * outerControlRatio
+        let cDistInner = ((.twoPi * innerRadius) / CGFloat(frequency)) * innerControlRatio
         
         path.move(to: CGPoint(x: center.x + outerRadius, y: center.y)) // Start at the first peak
         

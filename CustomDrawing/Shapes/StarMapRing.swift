@@ -21,7 +21,7 @@ public struct StarMapRing: View {
 
         public init(nodeCount: Int = 30, centerBiasStrength: CGFloat = 1.0) {
             let nodeCount = max(1, min(120, nodeCount))
-            let shiftRange: CGFloat = (2 * .pi) / CGFloat(nodeCount)
+            let shiftRange: CGFloat = .twoPi / CGFloat(nodeCount)
             nodes = (0..<nodeCount).map { i in
                 let a0 = shiftRange * CGFloat(i)
                 let a1 = shiftRange * CGFloat(i + 1)

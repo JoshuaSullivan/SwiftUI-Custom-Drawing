@@ -25,7 +25,7 @@ public struct GaugeRing: Shape {
         let cy = drawRect.center.y
         let rInner = radius * (1 - thicknessRatio)
         var p = Path()
-        let da: CGFloat = 2 * .pi / CGFloat(tickCount)
+        let da: CGFloat = .twoPi / CGFloat(tickCount)
         for i in 0..<tickCount {
             let a = CGFloat(i) * da
             let x0 = cx + cos(a) * rInner

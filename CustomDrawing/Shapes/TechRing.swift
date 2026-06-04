@@ -39,9 +39,9 @@ public struct TechRing: Shape {
 
         // Create arcs
         var arcs: [[CGFloat]] = []
-        let aOffset: CGFloat = CGFloat.random(in: 0...(2 * .pi))
+        let aOffset: CGFloat = CGFloat.random(in: 0...CGFloat.twoPi)
         let notchCount = Int.random(in: arcCountRange)
-        let notchArc = (2 * .pi) / CGFloat(notchCount)
+        let notchArc = .twoPi / CGFloat(notchCount)
         for i in 0..<notchCount {
             let startAngle = notchArc * CGFloat(i) + aOffset
             let ratio = CGFloat.random(in: 0.25...0.75)
@@ -119,9 +119,9 @@ public struct HollowTechRing: Shape {
         self.thicknessRatio = thicknessRatio
         
         var arcs: [[CGFloat]] = []
-        var aOffset: CGFloat = CGFloat.random(in: 0...(2 * .pi))
+        var aOffset: CGFloat = CGFloat.random(in: 0...CGFloat.twoPi)
         var notchCount = Int.random(in: outerArcCountRange)
-        var notchArc = (2 * .pi) / CGFloat(notchCount)
+        var notchArc = .twoPi / CGFloat(notchCount)
         for i in 0..<notchCount {
             let startAngle = notchArc * CGFloat(i) + aOffset
             let ratio = CGFloat.random(in: 0.2...0.8)
@@ -133,9 +133,9 @@ public struct HollowTechRing: Shape {
         self.outerArcs = arcs.flatMap { $0 }
 
         arcs = []
-        aOffset = CGFloat.random(in: 0...(2 * .pi))
+        aOffset = CGFloat.random(in: 0...CGFloat.twoPi)
         notchCount = Int.random(in: innerArcCountRange)
-        notchArc = (2 * .pi) / CGFloat(notchCount)
+        notchArc = .twoPi / CGFloat(notchCount)
         for i in 0..<notchCount {
             let startAngle = notchArc * CGFloat(i) + aOffset
             let ratio = CGFloat.random(in: 0.2...0.8)

@@ -22,9 +22,9 @@ public struct SparseStreakRing: Shape {
         
         streaks = (0..<layerCount).map { layer in
             let streakCount = Int.random(in: streaksPerLayer)
-            let aOffset = CGFloat.random(in: 0..<(2 * .pi))
+            let aOffset: CGFloat = CGFloat.random(in: 0..<(.twoPi))
             return (0..<streakCount).map { i in
-                let angleArc = (2 * CGFloat.pi) / CGFloat(streakCount)
+                let angleArc = (.twoPi) / CGFloat(streakCount)
                 let a0 = angleArc * CGFloat(i) + aOffset
                 let a1 = a0 + angleArc
                 let start = a0 + CGFloat.random(in: 0..<(angleArc * 0.49))

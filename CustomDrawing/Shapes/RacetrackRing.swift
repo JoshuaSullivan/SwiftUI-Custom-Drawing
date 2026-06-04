@@ -21,7 +21,7 @@ public struct RacetrackRing: Shape {
         if let arc {
             self.arc = arc
         } else {
-            let startAngle = Angle(radians: .random(in: 0..<(2.0 * .pi)))
+            let startAngle = Angle(radians: .random(in: 0..<(.twoPi)))
             let extent = Angle(radians: .random(in: (0.2 * .pi)..<(1.8 * .pi)))
             self.arc = Arc(start: startAngle, end: startAngle + extent)
         }

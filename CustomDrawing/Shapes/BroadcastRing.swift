@@ -22,8 +22,8 @@ public struct BroadcastRing: Shape {
         self.layerCount = max(1, layerCount)
         
         let rayCount = Int.random(in: rayCountRange)
-        let anglePerRay = (2 * .pi) / CGFloat(rayCount)
-        let offset = CGFloat.random(in: 0..<(2 * .pi))
+        let anglePerRay = .twoPi / CGFloat(rayCount)
+        let offset = CGFloat.random(in: 0..<CGFloat.twoPi)
         var arcs: [Arc] = []
         if uniformSpacing {
             for i in 0..<rayCount {
