@@ -33,7 +33,7 @@ public struct WaveRing: Shape {
         self.innerControlRatio = innerControlRatio
     }
     
-    public func path(in rect: CGRect) -> Path {
+    public nonisolated func path(in rect: CGRect) -> Path {
         let center = CGPoint(x: rect.midX, y: rect.midY)
         let outerRadius = min(rect.width, rect.height) / 2
         let innerRadius = outerRadius * amplitudeRatio
