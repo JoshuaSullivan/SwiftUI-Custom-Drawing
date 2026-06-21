@@ -167,6 +167,25 @@ struct ContentView: View {
             .foregroundStyle(.red),
     ]
 
+    private let chevron: [any View] = [
+        ChevronRing()
+            .foregroundStyle(.blue),
+        ChevronRing(chevronCount: 16, radiusRatio: 0.6, spacingRatio: 0.7, centerOffsetAngle: .pi / 12, clockwise: false)
+            .foregroundStyle(.green),
+        ChevronRing(chevronCount: 36, radiusRatio: 0.28, spacingRatio: 0.55, centerOffsetAngle: .pi / 30)
+            .stroke(lineWidth: 2)
+            .foregroundStyle(.red),
+    ]
+
+    private let beadCurtain: [any View] = [
+        BeadCurtainRing()
+            .foregroundStyle(.blue),
+        BeadCurtainRing(thicknessRatio: 0.8, stringCount: 32, pinInnerBead: false, pinOuterBead: false)
+            .foregroundStyle(.green),
+        BeadCurtainRing(thicknessRatio: 0.3, stringCount: 8, beadsPerStringRange: 2...3, stringWidth: 1, beadSize: 5...8, pinInnerBead: true, pinOuterBead: false)
+            .foregroundStyle(.red),
+    ]
+
     private let shader: [any View] = [
 
         Circle()
@@ -192,10 +211,10 @@ struct ContentView: View {
     ]
     
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Star Map Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Star Map Ring", "Chevron Ring", "Bead Curtain Ring", "Shader Effects"]
 
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, starMapRing, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, starMapRing, chevron, beadCurtain, shader]
     }
     
     var body: some View {
