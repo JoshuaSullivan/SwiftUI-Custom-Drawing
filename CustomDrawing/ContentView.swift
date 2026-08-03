@@ -186,6 +186,21 @@ struct ContentView: View {
             .foregroundStyle(.red),
     ]
 
+    private let sectorMap: [any View] = [
+        SectorMapRing(thicknessRatio: 0.7, sectorMap: ContentView.evenSectorMap(tracks: [0, 1, 2, 1, 0, 2, 1, 0, 2, 1]), trackCount: 3, linkStyle: .unlinked)
+            .stroke(lineWidth: 2)
+            .foregroundStyle(.blue),
+
+        SectorMapRing(thicknessRatio: 0.5, sectorMap: ContentView.evenSectorMap(tracks: [0, 3, 1, 4, 0, 2, 4, 1, 3, 0, 2, 4, 1, 3, 0]), trackCount: 5, linkStyle: .linked(thickness: Angle(radians: 0.02)))
+            .foregroundStyle(.green),
+
+        SectorMapRing(thicknessRatio: 0.6, sectorMap: ContentView.evenSectorMap(tracks: [0, 1, 2, 1, 0, 1, 2, 1]), trackCount: 3, linkStyle: .linked(thickness: Angle(radians: 0.05), roundedCorners: true))
+            .foregroundStyle(.red),
+
+        SectorMapRing(thicknessRatio: 0.8, sectorMap: ContentView.evenSectorMap(tracks: [0, 2, 3, 1, 0, 3, 1, 2, 0, 3, 1, 2]), trackCount: 4, linkStyle: .linked(thickness: Angle(radians: 0.06), roundedCorners: true))
+            .foregroundStyle(.orange),
+    ]
+
     private let shader: [any View] = [
 
         Circle()
@@ -210,11 +225,21 @@ struct ContentView: View {
         
     ]
     
+    /// Splits the ring evenly among `tracks.count` sectors, assigning each the given track.
+    private static func evenSectorMap(tracks: [Int]) -> [SectorMapRing.Sector] {
+        let count = tracks.count
+        return tracks.enumerated().map { index, track in
+            let start = Angle(radians: .twoPi * Double(index) / Double(count))
+            let end = Angle(radians: .twoPi * Double(index + 1) / Double(count))
+            return SectorMapRing.Sector(track: track, arc: Arc(start: start, end: end))
+        }
+    }
+
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Star Map Ring", "Chevron Ring", "Bead Curtain Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Star Map Ring", "Chevron Ring", "Bead Curtain Ring", "Sector Map Ring", "Shader Effects"]
 
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, starMapRing, chevron, beadCurtain, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, starMapRing, chevron, beadCurtain, sectorMap, shader]
     }
     
     var body: some View {
