@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RingsOfPower
 
 struct ContentView: View {
     
@@ -158,12 +159,12 @@ struct ContentView: View {
             .foregroundStyle(.red),
     ]
 
-    private let starMapRing: [any View] = [
-        StarMapRing()
+    private let constellationRing: [any View] = [
+        ConstellationRing()
             .foregroundStyle(.blue),
-        StarMapRing(thicknessRatio: 0.9, strandCount: 5, nodeCount: 30, nodeReach: 2, nodeRadius: 6)
+        ConstellationRing(thicknessRatio: 0.9, strandCount: 5, nodeCount: 30, nodeReach: 2, nodeRadius: 6)
             .foregroundStyle(.green),
-        StarMapRing(thicknessRatio: 0.4 , strandCount: 2, nodeCount: 15, nodeRadius: 14)
+        ConstellationRing(thicknessRatio: 0.4 , strandCount: 2, nodeCount: 15, nodeRadius: 14)
             .foregroundStyle(.red),
     ]
 
@@ -236,10 +237,10 @@ struct ContentView: View {
     }
 
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Star Map Ring", "Chevron Ring", "Bead Curtain Ring", "Sector Map Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Constellation Ring", "Chevron Ring", "Bead Curtain Ring", "Sector Map Ring", "Shader Effects"]
 
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, starMapRing, chevron, beadCurtain, sectorMap, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, constellationRing, chevron, beadCurtain, sectorMap, shader]
     }
     
     var body: some View {

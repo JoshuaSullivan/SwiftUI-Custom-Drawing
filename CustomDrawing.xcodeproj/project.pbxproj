@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		BCD9A0032E2055DE0087AD8D /* RingsOfPower in Frameworks */ = {isa = PBXBuildFile; productRef = BCD9A0022E2055DE0087AD8D /* RingsOfPower */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		BCD903032E2055DE0087AD8D /* CustomDrawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomDrawing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCD9A0032E2055DE0087AD8D /* RingsOfPower in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = CustomDrawing;
 			packageProductDependencies = (
+				BCD9A0022E2055DE0087AD8D /* RingsOfPower */,
 			);
 			productName = CustomDrawing;
 			productReference = BCD903032E2055DE0087AD8D /* CustomDrawing.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = BCD902FA2E2055DE0087AD8D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BCD9A0012E2055DE0087AD8D /* XCLocalSwiftPackageReference "../RingsOfPower" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BCD903042E2055DE0087AD8D /* Products */;
 			projectDirPath = "";
@@ -328,6 +337,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		BCD9A0012E2055DE0087AD8D /* XCLocalSwiftPackageReference "../RingsOfPower" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../RingsOfPower;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BCD9A0022E2055DE0087AD8D /* RingsOfPower */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RingsOfPower;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BCD902FB2E2055DE0087AD8D /* Project object */;
 }
