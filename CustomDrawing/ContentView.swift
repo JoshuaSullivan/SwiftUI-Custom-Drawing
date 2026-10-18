@@ -216,6 +216,17 @@ struct ContentView: View {
             .foregroundStyle(.red),
     ]
 
+    private let brickWall: [any View] = [
+        BrickWallRing()
+            .stroke(.blue),
+
+        BrickWallRing(thicknessRatio: 0.4, tickCounts: [14, 24, 7, 19], offsetBehavior: .constantOffset(origin: -.pi * 0.5, offset: .pi * 0.2))
+            .stroke(.green),
+
+        BrickWallRing(thicknessRatio: 0.9, tickCounts: [8, 8, 8, 8, 8], offsetBehavior: .custom(offsets: [1, 5, 3, 4, 2]))
+            .stroke(.red),
+    ]
+
     private let shader: [any View] = [
 
         Circle()
@@ -251,10 +262,10 @@ struct ContentView: View {
     }
 
     private let allViews: [[any View]]
-    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Constellation Ring", "Chevron Ring", "Bead Curtain Ring", "Sector Map Ring", "Spiral Ring", "Shader Effects"]
+    private let rowTitles = ["Gear Rings", "Burst Rings", "Tech Rings", "Wave Rings", "Sparse Streak Ring", "Offset Streak Ring", "Gauge Ring", "Broadcast Ring", "Racetrack Ring", "Meta Ring", "Cyclomat Ring", "Constellation Ring", "Chevron Ring", "Bead Curtain Ring", "Sector Map Ring", "Spiral Ring", "Brick Wall Ring", "Shader Effects"]
 
     init() {
-        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, constellationRing, chevron, beadCurtain, sectorMap, spiral, shader]
+        allViews = [gear, burst, tech, wave, sparseStreaks, offsetStreaks, gauge, broadcast, racetrack, metaRing, cyclomatRing, constellationRing, chevron, beadCurtain, sectorMap, spiral, brickWall, shader]
     }
     
     var body: some View {
